@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.galuszkat</groupId>
+		<artifactId>spring-security-jwt</artifactId>
+		<version>${revision}${sha1}${changelist}</version>
+	</parent>
+
+	<artifactId>microservice</artifactId>
+	<packaging>pom</packaging>
+
+	<properties>
+		<mvn.plugin.surefire.version>3.0.0-M5</mvn.plugin.surefire.version>
+		<mvn.plugin.spring.version>2.5.5</mvn.plugin.spring.version>
+		<mvn.plugin.jar.version>2.6</mvn.plugin.jar.version>
+	</properties>
+
+	<modules>
+		<module>dependencies</module>
+		<module>application</module>
+		<module>security</module>
+		<module>hello</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.galuszkat.microservice</groupId>
+				<artifactId>dependencies</artifactId>
+				<version>${project.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${mvn.plugin.surefire.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${mvn.plugin.spring.version}</version>
+					<configuration>
+						<executable>true</executable>
+						<excludes>
+							<exclude>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok</artifactId>
+							</exclude>
+						</excludes>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${mvn.plugin.jar.version}</version>
+					<configuration>
+						<skipIfEmpty>true</skipIfEmpty>
+					</configuration>
+					<executions>
+						<execution>
+							<id>create-test-jar</id>
+							<goals>
+								<goal>test-jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>
